@@ -1,3 +1,5 @@
+package SkillBox;
+
 /**
  * Created by AdamMraz on 7/28/2020.
  */

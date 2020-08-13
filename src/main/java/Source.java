@@ -1,3 +1,4 @@
+import SkillBox.Course;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
@@ -37,7 +38,6 @@ public class Source {
         for (Course course : courses) {
             System.out.println(course.getId() + ". " + course.getName() + " - " + course.getStudentsCount());
         }
-
         sessionFactory.close();
     }
 }

@@ -1,4 +1,7 @@
+package SkillBox;
+
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by AdamMraz on 7/28/2020.
@@ -16,13 +19,19 @@ public class Course {
     @Column(columnDefinition = "enum")
     private CourseType type;
     private String description;
-    @Column(name = "teacher_id")
-    private int teacherId;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Teacher teacher;
     @Column(name = "students_count")
     private int studentsCount;
     private int price;
     @Column(name = "price_per_hour")
     private float pricePerHour;
+
+    @ManyToMany
+    @JoinTable(name = "Subscriptions",
+        joinColumns = {@JoinColumn(name = "course_id")},
+        inverseJoinColumns = {@JoinColumn(name = "student_id")})
+    private List<Student> students;
 
     public int getId() {
         return id;
@@ -64,12 +73,12 @@ public class Course {
         this.description = description;
     }
 
-    public int getTeacherId() {
-        return teacherId;
+    public Teacher getTeacher() {
+        return teacher;
     }
 
-    public void setTeacherId(int teacherId) {
-        this.teacherId = teacherId;
+    public void setTeacher(Teacher teacher) {
+        this.teacher = teacher;
     }
 
     public int getStudentsCount() {
@@ -96,4 +105,11 @@ public class Course {
         this.pricePerHour = pricePerHour;
     }
 
+    public List<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(List<Student> students) {
+        this.students = students;
+    }
 }
