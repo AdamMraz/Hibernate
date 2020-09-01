@@ -30,9 +30,11 @@ public class Course {
     @Column(name = "price_per_hour")
     private float pricePerHour;
 
-    @ManyToMany
-    @JoinTable(name = "Subscriptions",
-        joinColumns = {@JoinColumn(name = "course_id")},
-        inverseJoinColumns = {@JoinColumn(name = "student_id")})
-    private List<Student> students;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "course_id", insertable = false, updatable = false)
+    private List<Subscription> subscriptions;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "course_id", insertable = false, updatable = false)
+    private List<LinkedPurchase> linkedPurchases;
 }

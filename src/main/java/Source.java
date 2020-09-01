@@ -1,4 +1,7 @@
 import SkillBox.Course;
+import SkillBox.LinkedPurchase;
+import SkillBox.Student;
+import SkillBox.Subscription;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
@@ -25,6 +28,7 @@ public class Source {
         boolean flag = true;
         int index = 1;
 
+
         while (flag) {
             try {
                 courses.add(session.get(Course.class, index));
@@ -36,8 +40,18 @@ public class Source {
         }
 
         for (Course course : courses) {
-            System.out.println(course.getId() + ". " + course.getName() + " - " + course.getStudentsCount());
+            for (Subscription subscription : course.getSubscriptions()) {
+                LinkedPurchase temp = new LinkedPurchase(subscription.getStudent(), course);
+                course.getLinkedPurchases().add(temp);
+            }
         }
+
+        for (Course course : courses) {
+            for(LinkedPurchase purchase : course.getLinkedPurchases()) {
+                System.out.println(purchase.getId());
+            }
+        }
+
         sessionFactory.close();
     }
 }

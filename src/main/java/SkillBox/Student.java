@@ -22,9 +22,8 @@ public class Student {
     @Column(name = "registration_date")
     private Date registrationDate;
 
-    @ManyToMany
-    @JoinTable(name = "Subscriptions",
-            joinColumns = {@JoinColumn(name = "student_id")},
-            inverseJoinColumns = {@JoinColumn(name = "course_id")})
-    private List<Course> courses;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "Subscriptions")
+    @JoinColumn(name = "student_id", insertable = false, updatable = false)
+    private List<Subscription> subscriptions;
 }
