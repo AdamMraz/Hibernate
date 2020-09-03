@@ -10,11 +10,17 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "Linkedpurchase")
+@Table(name = "Linkedpurchaselist")
 public class LinkedPurchase {
 
     @EmbeddedId
     private LinkedPurchaseKey id;
+
+    @Column(name = "student_id", insertable = false, updatable = false)
+    private int studentId;
+
+    @Column(name = "course_id", insertable = false, updatable = false)
+    private int courseId;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "student_id", insertable = false, updatable = false)
@@ -27,6 +33,8 @@ public class LinkedPurchase {
     public LinkedPurchase(Student student, Course course) {
         this.student = student;
         this.course = course;
-        id = new LinkedPurchaseKey(student.getId(), course.getId());
+        studentId = student.getId();
+        courseId = course.getId();
+        id = new LinkedPurchaseKey(studentId, courseId);
     }
 }

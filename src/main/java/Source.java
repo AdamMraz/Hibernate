@@ -4,6 +4,7 @@ import SkillBox.Student;
 import SkillBox.Subscription;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
@@ -24,6 +25,7 @@ public class Source {
         SessionFactory sessionFactory = metadata.getSessionFactoryBuilder().build();
 
         Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
 
         boolean flag = true;
         int index = 1;
@@ -48,10 +50,12 @@ public class Source {
 
         for (Course course : courses) {
             for(LinkedPurchase purchase : course.getLinkedPurchases()) {
-                System.out.println(purchase.getId());
+                System.out.println(purchase.getId() + " - " + purchase.getStudentId() + " - " + purchase.getCourseId());
+                System.out.println(session.save(purchase));
             }
         }
 
+        transaction.commit();
         sessionFactory.close();
     }
 }
